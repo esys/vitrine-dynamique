@@ -1,0 +1,20 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+zappa = "*"
+flask = "*"
+"boto3" = "*"
+requests = "*"
+pynamodb = "*"
+jsonpickle = "*"
+object-mapper = "*"
+
+
+[dev-packages]
+

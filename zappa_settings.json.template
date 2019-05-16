@@ -1,0 +1,35 @@
+{
+  "dev": {
+    "app_function": "app.app",
+    "aws_region": "eu-west-1",
+    "profile_name": "default",
+    "project_name": "vitrine-dynamique",
+    "runtime": "python3.6",
+    "s3_bucket": "zappa-vitrine-dynamique",
+    "environment_variables": {
+      "ANNONCE_TABLE": "$annonce_table",
+      "PHOTO_TABLE": "$photo_table",
+      "TAG_TABLE": "$tag_table",
+      "REKOGNIZE_BUCKET": "$rekognition_bucket"
+    },
+    "events": [
+      {
+        "function": "vitrinedynamique.task.storeannonces.execute",
+        "expression": "rate(12 hours)"
+      },
+      {
+        "function": "vitrinedynamique.task.tagannonce.execute",
+        "event_source": {
+          "arn": "arn:aws:dynamodb:::table/$photo_table/stream/$photo_stream_arn",
+          "starting_position": "TRIM_HORIZON",
+          "batch_size": 50,
+          "enabled": true
+        }
+      }
+    ],
+    "tags": {
+      "Environment": "dev",
+      "Application": "VIT"
+    }
+  }
+}
